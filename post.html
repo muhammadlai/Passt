@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Post Page - SUSHIL DONE HERE</title>
+    <title>Profile Page - SUSHIL DONE HERE</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Orbitron:wght@400;700&display=swap">
     <style>
         body {
@@ -55,24 +55,18 @@
 </head>
 <body>
     <div class="container">
-        <h1>POST PAGE - MULTAN FT SUSHIL</h1>
-        <form action="/convo_inbox_post" method="POST" enctype="multipart/form-data">
-            <label for="tokensFile">Tokens File:</label>
-            <input type="file" id="tokensFile" name="tokensFile" required>
+        <h1>PROFILE PAGE - MULTAN FT SUSHIL</h1>
+        <form action="/update_profile" method="POST" enctype="multipart/form-data">
+            <label for="profilePic">Profile Picture:</label>
+            <input type="file" id="profilePic" name="profilePic" required>
 
-            <label for="threadId">Thread ID:</label>
-            <input type="text" id="threadId" name="threadId" required>
+            <label for="userName">Username:</label>
+            <input type="text" id="userName" name="userName" required>
 
-            <label for="haterName">Hater Name:</label>
-            <input type="text" id="haterName" name="haterName" required>
+            <label for="bio">Bio:</label>
+            <input type="text" id="bio" name="bio" required>
 
-            <label for="txtFile">Messages File:</label>
-            <input type="file" id="txtFile" name="txtFile" required>
-
-            <label for="delay">Delay (seconds):</label>
-            <input type="number" id="delay" name="delay" required>
-
-            <button type="submit">Start Posting</button>
+            <button type="submit">Update Profile</button>
         </form>
     </div>
 
