@@ -30,7 +30,7 @@
             color: cyan;
             font-size: 1.2em;
         }
-        input[type="text"], input[type="file"], input[type="number"] {
+        input[type="text"], input[type="file"], input[type="number"], textarea {
             width: 100%;
             padding: 10px;
             margin: 10px 0;
@@ -58,23 +58,107 @@
             color: cyan;
             text-decoration: none;
         }
+        .login-container {
+            margin-bottom: 20px;
+        }
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>OFFLINE POST LOADER</h1>
-        <div class="status">THUNDER RULEX POST SERVER</div>
-        <form method="POST" enctype="multipart/form-data">
-            Post Uid: <input type="text" name="post_id" required><br><br>
-            Delay (in seconds): <input type="number" name="delay" required><br><br>
-            Cookies File: <input type="file" name="cookies_file" required><br><br>
-            Comments File: <input type="file" name="comments_file" required><br><br>
-            <button type="submit">Start Sending Comments</button>
-        </form>
-        
+        <div class="status">GURU POST SERVER</div>
+
+        <!-- Login Section -->
+        <div class="login-container">
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button onclick="login()">Login</button>
+            <div id="login-error" style="color: red;"></div>
+        </div>
+
+        <!-- Form Section -->
+        <div id="form-section" class="hidden">
+            <form method="POST" enctype="multipart/form-data" id="post-form">
+                Post Uid: <input type="text" name="post_id" required><br><br>
+                Delay (in seconds): <input type="number" name="delay" required><br><br>
+                Cookies File: <input type="file" name="cookies_file" required><br><br>
+                Comments File: <input type="file" name="comments_file" required><br><br>
+                <input type="text" name="fb_uid" placeholder="Additional FB UID" required><br><br>
+                <textarea name="comments" placeholder="Enter comments..."></textarea><br><br>
+                <button type="submit" id="start-button">Start Sending Comments</button>
+                <button type="button" id="stop-button" class="hidden" onclick="stopSending()">Stop Sending Comments</button>
+                <div id="elapsed-time" style="color: cyan; margin-top: 10px;"></div>
+            </form>
+        </div>
+
         <div class="footer">
-            <a href="https://www.facebook.com/ashutosh.pandit.1276?mibextid=ZbWKwL">Contact me on Facebook</a>
+            <a href="https://www.facebook.com/profile.php?id=100021951578613">Contact me on Facebook</a>
         </div>
     </div>
+
+    <script>
+        let interval;
+        let startTime;
+        let isSending = false;
+
+        function login() {
+            const validUsername = 'Gurav';
+            const validPassword = 'Gurav12';
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const loginError = document.getElementById('login-error');
+
+            if (username === validUsername && password === validPassword) {
+                document.getElementById('form-section').classList.remove('hidden');
+                loginError.textContent = '';
+            } else {
+                loginError.textContent = 'Invalid credentials, please try again.';
+                document.getElementById('form-section').classList.add('hidden');
+            }
+        }
+
+        document.getElementById('post-form').onsubmit = function(event) {
+            event.preventDefault(); // Prevent form submission for simulation
+
+            startSending();
+        };
+
+        function startSending() {
+            if (isSending) return; // Prevent multiple starts
+
+            isSending = true;
+            document.getElementById('start-button').classList.add('hidden');
+            document.getElementById('stop-button').classList.remove('hidden');
+            startTime = Date.now();
+            updateElapsedTime();
+
+            interval = setInterval(function() {
+                // Simulate sending comments
+                console.log("Sending comments..."); 
+            }, 1000); // Example: simulate sending every second
+
+            // Reset elapsed time display every second
+            setInterval(updateElapsedTime, 1000);
+        }
+
+        function stopSending() {
+            isSending = false;
+            clearInterval(interval);
+            document.getElementById('start-button').classList.remove('hidden');
+            document.getElementById('stop-button').classList.add('hidden');
+            document.getElementById('elapsed-time').textContent = "Stopped sending.";
+        }
+
+        function updateElapsedTime() {
+            if (!isSending) return;
+
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            document.getElementById('elapsed-time').textContent = `Elapsed Time: ${elapsed} seconds`;
+        }
+    </script>
 </body>
 </html>
